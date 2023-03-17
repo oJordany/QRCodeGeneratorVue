@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/qrious.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Gerador de QRCode</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <div>
+            <input type="text" size="25" placeholder="Digite para gerar..." v-model="text">
+        </div>
+        
+        <div v-if="text" class="output">
+            <img :src="newQRCode" alt="QRCode">
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                title: 'Gerador de QRCode',
+                text: 'https://www.github.com/ojordany ',
+                qrcode: new QRious({ size: 300 }) // instância do QRius
+                                                 // podemos ver a documentação do QRius
+                                                 // mas a única coisa q nós estamos fazendo é passando um parâmetro para q ele gere um qrcode de tamanho 300
+            },
+            // Atributo computado/calculado
+            computed: {
+                // Para cada texto ele vai gerar um novo QRCode
+                newQRCode() {
+                    this.qrcode.value = this.text 
+                    // Esse valor gerado com o newQRCode() vai gerar de fato um atributo Data e ele vai asociar isso a uma imagem para ser mostrada
+                    return this.qrcode.toDataURL()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
